@@ -7,9 +7,19 @@ height = 1
 x = 0
 y = 0
 z = height/2
+
 pyrosim.Send_Cube(name="Box", pos=[x, y, z], size=[length, width, height])
 
-z = 1
-x = 1
-pyrosim.Send_Cube(name="Box2", pos=[x, y, z], size=[length, width, height])
+for j in range(10):
+
+    for i in range(10):
+        z += 1
+        length = length * .90
+        width = width * .90
+        height = height * .90
+        pyrosim.Send_Cube(name="Box", pos=[x, y, z], size=[length, width, height])
+    height, width, length = 1, 1, 1
+    z = height/2
+    x += 1
+
 pyrosim.End()
