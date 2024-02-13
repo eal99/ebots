@@ -13,18 +13,25 @@ planeId = p.loadURDF("plane.urdf")
 robotId = p.loadURDF("body.urdf")
 p.loadSDF("world.sdf")
 pyrosim.Prepare_To_Simulate(robotId)
-backLegSensorValues = numpy.zeros(1000)
 
+backLegSensorValues = numpy.zeros(1000)
+frontLegSensorValues = numpy.zeros(1000)
 for i in range(1000):
     p.stepSimulation()
-    backLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("FrontLeg")
+    backLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
+    frontLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("FrontLeg")
     time.sleep(1/60)
 
 p.disconnect()
 print(backLegSensorValues)
+print('--------------------------- \n')
+print(frontLegSensorValues)
 subdirectory = 'data'
 
 if not os.path.exists(subdirectory):
     os.makedirs(subdirectory)
-filename = os.path.join(subdirectory, 'backLegSensorValues.npy')
-numpy.save(filename, backLegSensorValues)
+backLegFile = os.path.join(subdirectory, 'backLegSensorValues.npy')
+frontLegFile = os.path.join(subdirectory, 'frontLegSensorValues.npy')
+
+numpy.save(backLegFile, backLegSensorValues)
+numpy.save(frontLegFile, frontLegSensorValues)
