@@ -3,7 +3,7 @@ import numpy as numpy
 
 
 num_steps = 1000
-t = numpy.linspace(0, 2 * numpy.pi, num_steps)
+# t = numpy.linspace(0, 2 * numpy.pi, num_steps)
 # general I guess
 amplitude = math.pi / 4
 frequency = 10

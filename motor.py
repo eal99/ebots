@@ -25,11 +25,12 @@ class MOTOR:
         self.Prepare_To_Act()
 
     def Prepare_To_Act(self):
-        if self.jointName == "Torso_BackLeg":
+        if self.jointName == b'Torso_BackLeg':
             self.motorValues = self.f_amplitude * numpy.sin(self.f_frequency * self.t + self.f_offset)
-        else:
+        elif self.jointName == b'BackLeg_FrontLeg':
             self.motorValues = self.b_amplitude * numpy.sin(self.b_frequency * self.t + self.b_offset)
-
+        else:
+            print("Error")
         # back_targetAngles = back_amplitude * numpy.sin(back_frequency * t + back_phaseOffset)
 
     def Set_Value(self, robot, i):
