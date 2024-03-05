@@ -1,29 +1,36 @@
 import pybullet as p
-import time
-import pybullet_data
 import pyrosim.pyrosim as pyrosim
-import numpy
-import os
-import math
-import random
+import numpy as numpy
 import constants as c
 
 
 class MOTOR:
     def __init__(self, jointName):
         self.jointName = jointName
-        self.Prepare_To_Act()
+        self.motorValues = numpy.zeros(c.num_steps)
+        self.t = numpy.linspace(0, 2 * numpy.pi, c.num_steps)
 
-    def Prepare_To_Act(self):
         self.amplitude = c.amplitude
         self.frequency = c.frequency
         self.offset = c.phaseOffset
 
-        self.motorValues = self.amplitude * numpy.sin(
-            self.frequency * numpy.linspace(0, c.num_steps, c.num_steps) + self.offset)
+        self.f_amplitude = c.front_amplitude
+        self.f_frequency = c.front_frequency
+        self.f_offset = c.front_phaseOffset
+
+        self.b_amplitude = c.back_amplitude
+        self.b_frequency = c.back_frequency
+        self.b_offset = c.back_phaseOffset
+
+        self.Prepare_To_Act()
+
+    def Prepare_To_Act(self):
+        if self.jointName == "Torso_BackLeg":
+            self.motorValues = self.f_amplitude * numpy.sin(self.f_frequency * self.t + self.f_offset)
+        else:
+            self.motorValues = self.b_amplitude * numpy.sin(self.b_frequency * self.t + self.b_offset)
 
         # back_targetAngles = back_amplitude * numpy.sin(back_frequency * t + back_phaseOffset)
-
 
     def Set_Value(self, robot, i):
         pyrosim.Set_Motor_For_Joint(
@@ -33,5 +40,3 @@ class MOTOR:
             targetPosition=self.motorValues[i],
             maxForce=c.maxForce
         )
-
-
