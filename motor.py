@@ -31,7 +31,7 @@ class MOTOR:
             self.motorValues = self.b_amplitude * numpy.sin(self.b_frequency * self.t + self.b_offset)
         else:
             print("Error")
-        # back_targetAngles = back_amplitude * numpy.sin(back_frequency * t + back_phaseOffset)
+
 
     def Set_Value(self, robot, i):
         pyrosim.Set_Motor_For_Joint(

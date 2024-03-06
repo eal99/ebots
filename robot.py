@@ -1,6 +1,5 @@
 import pybullet as p
 import pyrosim.pyrosim as pyrosim
-import constants as c
 from sensor import SENSOR
 from motor import MOTOR
 

@@ -17,7 +17,7 @@ front_phaseOffset = 0
 
 # backLeg
 back_amplitude = math.pi / 4
-back_frequency = 10
+back_frequency = 5
 back_phaseOffset = 1
 
 maxForce = 20
