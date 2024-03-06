@@ -10,7 +10,7 @@ class NEURAL_NETWORK:
 
         self.synapses = {}
 
-        f = open(nndfFileName,"r")
+        f = open(nndfFileName, "r")
 
         for line in f.readlines():
 
@@ -27,6 +27,17 @@ class NEURAL_NETWORK:
         self.Print_Motor_Neuron_Values()
 
         print("")
+
+    def Update(self):
+
+        for neuron in self.neurons:
+            if self.neurons[neuron].Is_Sensor_Neuron():
+                self.neurons[neuron].Update_Sensor_Neuron()
+            else:
+                self.neurons[neuron].Update_Hidden_Or_Motor_Neuron()
+
+        for synapse in self.synapses:
+            print(synapse)
 
 # ---------------- Private methods --------------------------------------
 
