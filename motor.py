@@ -19,7 +19,11 @@ class MOTOR:
         self.f_offset = c.front_phaseOffset
 
         self.b_amplitude = c.back_amplitude
-        self.b_frequency = c.back_frequency
+        # Adjust the back leg frequency to half if it's one motor, otherwise use the standard frequency
+        if self.jointName == b'BackLeg_FrontLeg':
+            self.b_frequency = c.back_frequency / 2  # Half the frequency for this specific joint
+        else:
+            self.b_frequency = c.back_frequency
         self.b_offset = c.back_phaseOffset
 
         self.Prepare_To_Act()
@@ -30,14 +34,16 @@ class MOTOR:
         elif self.jointName == b'BackLeg_FrontLeg':
             self.motorValues = self.b_amplitude * numpy.sin(self.b_frequency * self.t + self.b_offset)
         else:
-            print("Error")
+            print("Error: Unknown joint name", self.jointName)
 
-
-    def Set_Value(self, robot, i):
+    def Set_Value(self, robot, desiredAngle):
+        print(f"Setting {self.jointName} to {desiredAngle}")
         pyrosim.Set_Motor_For_Joint(
             bodyIndex=robot,
             jointName=self.jointName,
             controlMode=p.POSITION_CONTROL,
-            targetPosition=self.motorValues[i],
+            targetPosition=desiredAngle,
             maxForce=c.maxForce
         )
+
+
