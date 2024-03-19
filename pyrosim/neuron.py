@@ -21,9 +21,9 @@ class NEURON:
 
         self.Set_Value(0.0)
 
-    def Add_To_Value( self, value ):
+    def Add_To_Value(self, value):
 
-        self.Set_Value( self.Get_Value() + value )
+        self.Set_Value(self.Get_Value() + value)
 
     def Get_Joint_Name(self):
 
@@ -71,13 +71,36 @@ class NEURON:
 
     def Update_Hidden_Or_Motor_Neuron(self, neurons, synapses):
         self.Set_Value(0)
-        for synapse in synapses:
-            print(synapse)
-        exit()
+        # print(synapses.keys())
+        print(f"Before update - Neuron {self.Get_Name()}: {self.Get_Value()}")
 
+        for key, synapse in synapses.items():
+
+            presynaptic_neuron_name, postsynaptic_neuron_name = key
+            if postsynaptic_neuron_name == self.Get_Name():
+                weight = synapses[key].Get_Weight()
+                presynaptic_neuron_value = neurons[presynaptic_neuron_name].Get_Value()
+                # print(
+                #     f"Influencing synapse - Pre: {presynaptic_neuron_name}, Post: {postsynaptic_neuron_name},"
+                #     f" Weight: {weight}, Pre-Value: {presynaptic_neuron_value}")
+                self.Allow_Presynaptic_Neuron_To_Influence_Me(weight, presynaptic_neuron_value)
+        self.Threshold()
+        print(f"After update - Neuron {self.Get_Name()}: {self.Get_Value()}")
+
+
+    def Allow_Presynaptic_Neuron_To_Influence_Me(self, w, v):
+        # print("Doing it.. \n")
+        weight = abs(w)
+        value = abs(v)
+        #current solution although I'm going to have to figure this out at some point
+        print(f"Weight: {weight}, Value: {value}")
+        new_value = weight*value
+        print(self.Get_Value())
+        self.Add_To_Value(new_value)
+        print(self.Get_Value())
 # -------------------------- Private methods -------------------------
 
-    def Determine_Name(self,line):
+    def Determine_Name(self, line):
 
         if "name" in line:
 
