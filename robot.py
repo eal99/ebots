@@ -42,5 +42,15 @@ class ROBOT:
         self.nn.Update()
         self.nn.Print()
 
+    def Get_Fitness(self):
+        stateOfLinkZero = p.getLinkState(self.robotId, 0)
+        positionOfLinkZero = stateOfLinkZero[0]
+        xCoordinateOfLinkZero = positionOfLinkZero[0]
+        f = open("fitness.txt", "w")
+        f.write(str(xCoordinateOfLinkZero))
+        f.close()
+        # print("~~~~ Look Here!! ~~~~ \n")
+        # print(str(xCoordinateOfLinkZero))
+        # exit()
 
 
