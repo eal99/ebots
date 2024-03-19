@@ -96,7 +96,7 @@ def Prepare_Joint_Dictionary(bodyID):
 
         jointInfo = p.getJointInfo( bodyID , jointIndex )
 
-        jointName = jointInfo[1]
+        jointName = jointInfo[1].decode('UTF-8')
 
         jointNamesToIndices[jointName] = jointIndex
 
@@ -160,6 +160,10 @@ def Set_Motor_For_Joint(bodyIndex,jointName,controlMode,targetPosition,maxForce)
         bodyIndex      = bodyIndex,
 
         jointIndex     = jointNamesToIndices[jointName],
+
+        # this is another option for line 162
+        # jointIndex = jointNamesToIndices[jointName.encode('ASCII')]
+
 
         controlMode    = controlMode,
 

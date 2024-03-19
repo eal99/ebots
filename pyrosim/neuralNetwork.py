@@ -1,17 +1,16 @@
-from pyrosim.neuron import NEURON
+from pyrosim.neuron  import NEURON
 
 from pyrosim.synapse import SYNAPSE
 
-
 class NEURAL_NETWORK: 
 
-    def __init__(self, nndfFileName):
+    def __init__(self,nndfFileName):
 
         self.neurons = {}
 
         self.synapses = {}
 
-        f = open(nndfFileName, "r")
+        f = open(nndfFileName,"r")
 
         for line in f.readlines():
 
@@ -31,30 +30,25 @@ class NEURAL_NETWORK:
         print("")
 
     def Update(self):
-
-        for neuron in self.neurons:
-            if self.neurons[neuron].Is_Sensor_Neuron():
-                self.neurons[neuron].Update_Sensor_Neuron()
+        for neuronName in self.neurons:
+            if self.neurons[neuronName].Is_Sensor_Neuron():
+                self.neurons[neuronName].Update_Sensor_Neuron()
             else:
-                self.neurons[neuron].Update_Hidden_Or_Motor_Neuron(self.neurons, self.synapses)
-
-        for synapse in self.synapses:
-            print(synapse)
-
+                self.neurons[neuronName].Update_Hidden_Or_Motor_Neuron(self.neurons, self.synapses)
     def Get_Neuron_Names(self):
-        return list(self.neurons.keys())
+        return self.neurons.keys()
+    
+    def Is_Motor_Neuron(self, neuronName):
+        return self.neurons[neuronName].Is_Motor_Neuron()
+    
+    def Get_Motor_Neurons_Joint(self, neuronName):
+        return self.neurons[neuronName].Get_Joint_Name()
+    
+    def Get_Value_Of(self, neuronName):
+        return self.neurons[neuronName].Get_Value()
 
-    def Is_Motor_Neuron(self, NeuronName):
-        if NeuronName in self.neurons:
-            return self.neurons[NeuronName].Is_Motor_Neuron()
-        else:
-            return False
 
-    def Get_Motor_Neurons_Joint(self, NeuronName):
-        return self.neurons[NeuronName].Get_Joint_Name()
 
-    def Get_Value_Of(self, NeuronName):
-        return self.neurons[NeuronName].Get_Value()
 
 # ---------------- Private methods --------------------------------------
 
@@ -62,7 +56,7 @@ class NEURAL_NETWORK:
 
         neuron = NEURON(line)
 
-        self.neurons[neuron.Get_Name()] = neuron
+        self.neurons[ neuron.Get_Name() ] = neuron
 
     def Add_Synapse_According_To(self,line):
 

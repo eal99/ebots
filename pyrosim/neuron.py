@@ -6,10 +6,9 @@ import pyrosim.pyrosim as pyrosim
 
 import pyrosim.constants as c
 
-
 class NEURON: 
 
-    def __init__(self, line):
+    def __init__(self,line):
 
         self.Determine_Name(line)
 
@@ -21,9 +20,9 @@ class NEURON:
 
         self.Set_Value(0.0)
 
-    def Add_To_Value(self, value):
+    def Add_To_Value( self, value ):
 
-        self.Set_Value(self.Get_Value() + value)
+        self.Set_Value( self.Get_Value() + value )
 
     def Get_Joint_Name(self):
 
@@ -63,44 +62,38 @@ class NEURON:
 
         # print("")
 
-    def Set_Value(self, value):
-        self.value = value
 
     def Update_Sensor_Neuron(self):
         self.Set_Value(pyrosim.Get_Touch_Sensor_Value_For_Link(self.Get_Link_Name()))
 
+
+
     def Update_Hidden_Or_Motor_Neuron(self, neurons, synapses):
         self.Set_Value(0)
-        # print(synapses.keys())
-        print(f"Before update - Neuron {self.Get_Name()}: {self.Get_Value()}")
+        # print("before loop: "+ str(self.Get_Value()))
+        for key in synapses.keys():
+            if key[1] == self.Get_Name():
+                current_synapse_weight = synapses[key].Get_Weight()
+                pre_synaptic_neuron_value = neurons[key[0]].Get_Value()
 
-        for key, synapse in synapses.items():
-
-            presynaptic_neuron_name, postsynaptic_neuron_name = key
-            if postsynaptic_neuron_name == self.Get_Name():
-                weight = synapses[key].Get_Weight()
-                presynaptic_neuron_value = neurons[presynaptic_neuron_name].Get_Value()
-                # print(
-                #     f"Influencing synapse - Pre: {presynaptic_neuron_name}, Post: {postsynaptic_neuron_name},"
-                #     f" Weight: {weight}, Pre-Value: {presynaptic_neuron_value}")
-                self.Allow_Presynaptic_Neuron_To_Influence_Me(weight, presynaptic_neuron_value)
+                self.Allow_Presynaptic_Neuron_To_Influence_Me(current_synapse_weight, pre_synaptic_neuron_value)
         self.Threshold()
-        print(f"After update - Neuron {self.Get_Name()}: {self.Get_Value()}")
+        # print("after loop: "+ str(self.Get_Value()))
+        
 
+    def Allow_Presynaptic_Neuron_To_Influence_Me(self, weight, value):
+        result = weight * value
+        self.Add_To_Value(result)
 
-    def Allow_Presynaptic_Neuron_To_Influence_Me(self, w, v):
-        # print("Doing it.. \n")
-        weight = abs(w)
-        value = abs(v)
-        #current solution although I'm going to have to figure this out at some point
-        print(f"Weight: {weight}, Value: {value}")
-        new_value = weight*value
-        print(self.Get_Value())
-        self.Add_To_Value(new_value)
-        print(self.Get_Value())
+ 
+
+    def Set_Value(self,value):
+
+        self.value = value
+
 # -------------------------- Private methods -------------------------
 
-    def Determine_Name(self, line):
+    def Determine_Name(self,line):
 
         if "name" in line:
 
