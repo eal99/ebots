@@ -85,7 +85,6 @@ class NEURON:
         result = weight * value
         self.Add_To_Value(result)
 
- 
 
     def Set_Value(self,value):
 

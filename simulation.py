@@ -26,6 +26,5 @@ class SIMULATION:
             self.robot.Think()
             self.robot.Act(t)
 
-
     def __del__(self):
         p.disconnect()
