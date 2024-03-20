@@ -8,3 +8,4 @@ hc = HILL_CLIMBER()
 #     os.system("python3 simulate.py")
 
 hc.Evolve()
+hc.Show_Best()

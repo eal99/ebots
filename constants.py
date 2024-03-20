@@ -19,4 +19,4 @@ phaseOffsetB = pi/4
 
 maxforce = 25
 
-numberOfGenerations = 2
+numberOfGenerations = 10

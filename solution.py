@@ -4,25 +4,24 @@ import os
 import random
 
 
-def Create_World():
-    pyrosim.Start_SDF("world.sdf")
-    pyrosim.Send_Cube(name="Box", pos=[-4, 4, 0.5], size=[1, 1, 1])
-    pyrosim.End()
-
-
 class SOLUTION:
     def __init__(self):
         self.weights = np.random.rand(3, 2)*2-1
-        print(self.weights)
+        # print(self.weights)
 
-    def Evaluate(self):
-        Create_World()
+    def Evaluate(self, direction):
+        self.Create_World()
         self.Create_Body()
         self.Create_Brain()
-        os.system("python3 simulate.py")
+        os.system("python3 simulate.py" + " " + direction)
         f = open("fitness.txt", "r")
         self.fitness = float(f.read())
         f.close()
+
+    def Create_World(self):
+        pyrosim.Start_SDF("world.sdf")
+        pyrosim.Send_Cube(name="Box", pos=[-4, 4, 0.5], size=[1, 1, 1])
+        pyrosim.End()
 
     def Create_Body(self):
         pyrosim.Start_URDF("robot.urdf")
