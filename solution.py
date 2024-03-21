@@ -8,12 +8,9 @@ import time
 class SOLUTION:
     def __init__(self, nextAvailableID):
         self.weights = np.random.rand(3, 2) * 2 - 1
-        self.myID = nextAvailableID
+        # self.myID = nextAvailableID
+        self.Set_ID(nextAvailableID)
         # print(self.weights)
-
-
-
-
 
     def Start_Simulation(self, directOrGUI):
         self.Create_World()
@@ -22,13 +19,14 @@ class SOLUTION:
         os.system("python3 simulate.py " + directOrGUI + " " + str(self.myID) + " &")
 
     def Wait_For_Simulation_To_End(self):
-        while not os.path.exists("fitness" + str(self.myID) + ".txt"):
+        fitnessFileName = "fitness" + str(self.myID) + ".txt"
+        while not os.path.exists(fitnessFileName):
             time.sleep(0.01)
-        f = open(str("fitness" + str(self.myID) + ".txt"), "r")
+
+        f = open(fitnessFileName, "r")
         self.fitness = float(f.read())
-        # print("Fitness: ", self.fitness)
         f.close()
-        os.system("rm fitness" + str(self.myID) + ".txt")
+        os.system("rm " + fitnessFileName)
 
     def Create_World(self):
         pyrosim.Start_SDF("world.sdf")

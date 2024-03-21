@@ -19,6 +19,6 @@ phaseOffsetB = pi/4
 
 maxforce = 25
 
-numberOfGenerations = 10
-
+numberOfGenerations = 2
+sleep = 0
 populationSize = 2
