@@ -16,9 +16,10 @@ amplitudeB = pi/4
 frequencyB = 6
 phaseOffsetB = pi/4
 
-
 maxforce = 25
 
-numberOfGenerations = 2
+numberOfGenerations = 10
+
 sleep = 0
-populationSize = 2
+
+populationSize = 10

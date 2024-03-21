@@ -9,7 +9,6 @@ import pyrosim.pyrosim as pyrosim
 import time
 import constants as c
 
-
 class SIMULATION:
 
     def __init__(self, direction, solutionID):
@@ -35,8 +34,11 @@ class SIMULATION:
             self.robot.Think()
             self.robot.Act(t)
 
-    def Get_Fitness(self):
-        self.robot.Get_Fitness()
 
     def __del__(self):
         p.disconnect()
+
+    def Get_Fitness(self):
+        self.robot.Get_Fitness()
+
+

@@ -1,11 +1,9 @@
-from simulation import SIMULATION
 import sys
+from simulation import SIMULATION
 
-# Command Line Arguments
+direct_or_GUI = sys.argv[1]
+SolutionID = sys.argv[2]
 
-directOrGUI = sys.argv[1]
-solutionID = sys.argv[2]
-
-simulation = SIMULATION(directOrGUI, solutionID)
+simulation = SIMULATION(direct_or_GUI, SolutionID)
 simulation.Run()
 simulation.Get_Fitness()

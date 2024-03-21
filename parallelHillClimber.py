@@ -1,7 +1,7 @@
 import copy
-
 from solution import SOLUTION
 import constants as c
+import random
 import os
 
 
@@ -10,40 +10,24 @@ class PARALLEL_HILL_CLIMBER:
 
         os.system("rm brain*.nndf")
         os.system("rm fitness*.nndf")
+
         self.parents = {}
+
         self.nextAvailableID = 0
 
         for i in range(c.populationSize):
+            print(self.nextAvailableID)
+
             self.parents[i] = SOLUTION(self.nextAvailableID)
             self.nextAvailableID += 1
 
-    def Evolve(self):
-        self.Evaluate(self.parents)
-        for currentGeneration in range(c.numberOfGenerations):
-            self.Evolve_For_One_Generation()
-        self.Show_Best()
-
     def Evolve_For_One_Generation(self):
+
         self.Spawn()
         self.Mutate()
         self.Evaluate(self.children)
-        self.Select()
         self.Print()
-
-    def Spawn(self):
-        self.children = {}
-        for key in self.parents.keys():
-            self.children[key] = copy.deepcopy(self.parents[key])
-            self.nextAvailableID += 1
-
-    def Mutate(self):
-        for key in self.children.keys():
-            self.children[key].Mutate()
-
-    def Select(self):
-        for key in self.parents.keys():
-            if self.parents[key].fitness > self.children[key].fitness:
-                self.parents[key] = self.children[key]
+        self.Select()
 
     def Print(self):
         print("\n")
@@ -60,9 +44,33 @@ class PARALLEL_HILL_CLIMBER:
             if current.fitness < minFitness.fitness:
                 minFitness = current
                 print("\nUpdated minFitness with new value: " + str(minFitness.fitness))
-        print("\nBest Self Identified \n")
-        print("New value is " + str(minFitness.fitness) + "Generating visual representation")
+        print("\nBest Self Identified Generating visual representation\n")
         minFitness.Start_Simulation("GUI")
+        print("New value is:  " + str(minFitness.fitness))
+
+    def Evolve(self):
+        self.Evaluate(self.parents)
+        for currentGeneration in range(c.numberOfGenerations):
+            self.Evolve_For_One_Generation()
+
+        self.Show_Best()
+
+    def Spawn(self):
+        self.children = {}
+
+        for key in self.parents.keys():
+            unit = copy.deepcopy(self.parents[key])
+            self.nextAvailableID += 1
+            self.children[key] = unit
+
+    def Mutate(self):
+        for key in self.children.keys():
+            self.children[key].Mutate()
+
+    def Select(self):
+        for unit in self.parents:
+            if self.children[unit].fitness < self.parents[unit].fitness:
+                self.parents[unit] = self.children[unit]
 
     def Evaluate(self, solutions):
         for key in solutions.keys():
