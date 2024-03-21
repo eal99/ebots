@@ -8,13 +8,14 @@ import os
 
 class ROBOT:
 
-    def __init__(self, solutionID):
+    def __init__(self, SolutionID):
         self.robotId = p.loadURDF("robot.urdf")
         pyrosim.Prepare_To_Simulate(self.robotId)
         ROBOT.Prepare_To_Sense(self)
         ROBOT.Prepare_To_Act(self)
-        self.nn = NEURAL_NETWORK("brain" + str(solutionID) + ".nndf")
-        os.system("rm brain" + str(solutionID) + ".nndf")
+        self.ID = SolutionID
+        self.nn = NEURAL_NETWORK("brain" + str(SolutionID) + ".nndf")
+        os.system("rm brain" + str(SolutionID) + ".nndf")
 
     def Prepare_To_Sense(self):
         self.sensors = {}
@@ -48,9 +49,10 @@ class ROBOT:
         stateOfLinkZero = p.getLinkState(self.robotId, 0)
         positionOfLinkZero = stateOfLinkZero[0]
         xCoordinateOfLinkZero = positionOfLinkZero[0]
-        f = open("fitness.txt", "w")
+        f = open("tmp" + str(self.ID) + ".txt", "w")
         f.write(str(xCoordinateOfLinkZero))
         f.close()
+        os.system("mv tmp" + str(self.ID) + ".txt" + " fitness" + str(self.ID) + ".txt")
         # print("~~~~ Look Here!! ~~~~ \n")
         # print(str(xCoordinateOfLinkZero))
         # exit()
